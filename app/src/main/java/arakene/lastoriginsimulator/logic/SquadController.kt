@@ -38,6 +38,7 @@ class SquadController {
             }
         }
         else{
+            //TODO 바이오로이드 선택
             isSelected = true
         }
         selectedPosition = intArrayOf(x, y)
