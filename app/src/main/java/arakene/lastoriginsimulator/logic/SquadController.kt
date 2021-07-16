@@ -6,4 +6,11 @@ class SquadController {
 
     private val map = HashMap<IntArray, Bioroid>()
 
+
+    fun check(index : Int) {
+        when (index) {
+
+        }
+    }
+
 }
