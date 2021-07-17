@@ -1,5 +1,6 @@
 package arakene.lastoriginsimulator.selector
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -16,6 +17,10 @@ class SelectorAdapter : RecyclerView.Adapter<SelectorViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: SelectorViewHolder, position: Int) {
+        holder.itemView.setOnClickListener {
+            val intent = Intent()
+//            intent.putExtra()
+        }
         holder.bind(datas[position])
     }
 
