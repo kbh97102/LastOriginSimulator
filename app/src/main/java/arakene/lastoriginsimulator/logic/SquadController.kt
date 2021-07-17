@@ -1,14 +1,29 @@
 package arakene.lastoriginsimulator.logic
 
+import android.content.Context
+import android.content.Intent
+import android.util.Log
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
+import arakene.lastoriginsimulator.SelectView
 import arakene.lastoriginsimulator.bioroid.Bioroid
+import org.json.JSONObject
 
-class SquadController {
+class SquadController(private val activity:AppCompatActivity) {
 
     private val map = HashMap<IntArray, Bioroid>()
-
-
     private var selectedPosition:IntArray? = null
     private var isSelected = false
+
+    private val startActivity = activity.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            result ->
+        if (result.resultCode == AppCompatActivity.RESULT_OK){
+            Log.e("Data", result.data.toString())
+            isSelected = false
+            val jsonData = JSONObject(result.data.toString())
+            Log.e("Json Data", jsonData.toString())
+        }
+    }
 
     /**
      * 버튼을 누르면 해당 인덱스를 넘겨줄 거임
@@ -34,7 +49,8 @@ class SquadController {
                 isSelected = false
             }
             else{ // 이미 선택된 바이오로이드가 없다 따라서 추가한다.
-                //TODO Select Bioroid
+                val intent = Intent(activity, SelectView::class.java)
+                startActivity.launch(intent)
             }
         }
         else{

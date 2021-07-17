@@ -1,7 +1,10 @@
 package arakene.lastoriginsimulator
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
+import androidx.activity.result.contract.ActivityResultContract
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import arakene.lastoriginsimulator.bioroid.Bioroid
 import arakene.lastoriginsimulator.bioroid.BioroidStats
@@ -12,6 +15,8 @@ import kotlinx.android.synthetic.main.activity_main.*
 class MainActivity : AppCompatActivity() {
 
     private val controller = SquadController()
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
