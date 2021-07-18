@@ -19,7 +19,7 @@ open class Skill {
         for (target in targets) {
             if (isPosition(target, skillRange)) {
                 for (stat in skillEffect.keys) {
-                    target.stats[stat] = target.stats[stat]!! * skillEffect[stat]!!
+                    target.afterStats[stat] = target.afterStats[stat]!! * skillEffect[stat]!!
                 }
             }
         }

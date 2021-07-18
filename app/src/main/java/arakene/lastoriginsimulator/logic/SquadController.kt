@@ -100,17 +100,18 @@ class SquadController(private val activity: AppCompatActivity) {
         selectedPosition = selected
 
 
-//        var list = ArrayList<Bioroid>()
-//
-//        map.values.map {
-//            list.add(it)
-//        }
-//
-//        for (bioroid in map.values) {
-//            if (bioroid != null) {
-//                bioroid.applyPassive(list.toTypedArray())
-//            }
-//        }
+        val list = ArrayList<Bioroid>()
+
+        bioroidMap.values.map {
+            if (it != null){
+                it.initStat()
+                list.add(it)
+            }
+        }
+
+        for (bioroid in list) {
+            bioroid.applyPassive(list.toTypedArray())
+        }
     }
 
 }

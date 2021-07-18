@@ -14,7 +14,7 @@ class Bioroid(
     private var _image: Int? = null,
     var _currentPosition: IntArray = IntArray(2),
     private var _stats: HashMap<String, Double>,
-    val afterStats : HashMap<String, Double>
+    val afterStats: HashMap<String, Double>
 ) {
 
     val level get() = _level
@@ -37,6 +37,11 @@ class Bioroid(
         }
     }
 
+    fun initStat() {
+        for (key in _stats.keys) {
+            afterStats[key] = _stats[key]!!
+        }
+    }
 
     override fun toString(): String {
         return "Bioroid Information\n" +
@@ -44,7 +49,8 @@ class Bioroid(
                 "level $_level\n" +
                 "passive ${_passiveSkills.contentDeepToString()}\n" +
                 "currentPosition ${_currentPosition.contentToString()}\n" +
-                "stat $_stats\n"
+                "stat $_stats\n" +
+                "After stat ${afterStats.toString()}"
     }
 
 }
