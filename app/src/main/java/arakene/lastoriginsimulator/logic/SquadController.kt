@@ -1,12 +1,13 @@
 package arakene.lastoriginsimulator.logic
 
 import android.content.Intent
-import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import arakene.lastoriginsimulator.R
 import arakene.lastoriginsimulator.SelectView
 import arakene.lastoriginsimulator.bioroid.Bioroid
 import com.google.gson.Gson
+import kotlin.reflect.KFunction2
 
 class SquadController(private val activity: AppCompatActivity) {
 
@@ -14,27 +15,31 @@ class SquadController(private val activity: AppCompatActivity) {
     private var selectedPosition: Int? = null
     private var isSelected = false
     private val positionMap = HashMap<Int, IntArray>().apply {
-        put(1, intArrayOf(0,2))
-        put(2, intArrayOf(1,2))
-        put(3, intArrayOf(2,2))
-        put(4, intArrayOf(0,1))
-        put(5, intArrayOf(1,1))
-        put(6, intArrayOf(2,1))
-        put(7, intArrayOf(0,0))
-        put(8, intArrayOf(1,0))
-        put(9, intArrayOf(2,0))
+        put(1, intArrayOf(0, 2))
+        put(2, intArrayOf(1, 2))
+        put(3, intArrayOf(2, 2))
+        put(4, intArrayOf(0, 1))
+        put(5, intArrayOf(1, 1))
+        put(6, intArrayOf(2, 1))
+        put(7, intArrayOf(0, 0))
+        put(8, intArrayOf(1, 0))
+        put(9, intArrayOf(2, 0))
     }
-
+    var requestChangeButtonIcon: KFunction2<Int, Int, Unit>? = null
 
     private val startActivity =
         activity.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == AppCompatActivity.RESULT_OK) {
                 if (result.data != null) {
-                    isSelected = false
                     val json = result.data!!.extras!!.get("data").toString()
                     val bioroid: Bioroid = Gson().fromJson(json, Bioroid::class.java)
                     bioroid._currentPosition = positionMap[selectedPosition!!]!!
                     bioroidMap[selectedPosition!!] = bioroid
+                    if (requestChangeButtonIcon != null) {
+                        requestChangeButtonIcon!!.invoke(R.drawable.test, selectedPosition!!)
+                    }
+
+                    isSelected = false
                     selectedPosition = null
                 }
             }
@@ -58,7 +63,7 @@ class SquadController(private val activity: AppCompatActivity) {
 //        }
     }
 
-    private fun control(selected : Int) {
+    private fun control(selected: Int) {
         if (bioroidMap[selected] == null) {
             if (isSelected) { // 이미 바이오로이드가 선택되어 있고 빈칸은 누른 경우 -> 이동시킨다
                 bioroidMap[selected] = bioroidMap[selectedPosition]!!
