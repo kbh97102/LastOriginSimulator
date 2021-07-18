@@ -19,31 +19,21 @@ class SelectorAdapter(private val activity: AppCompatActivity) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SelectorViewHolder {
         val view = ItemLayoutBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        Log.e("OnCreateViewHolder", view.toString())
         return SelectorViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: SelectorViewHolder, position: Int) {
         holder.itemView.setOnClickListener { // TODO 선택된 바이오로이드 정보 json으로 넘김
             val data = Gson().toJson(datas[position])
-//            val selectedBioroid = datas[position]
-//            data.apply {
-//                put("name", selectedBioroid.name)
-//                put("level", selectedBioroid.level)
-//                put("active", selectedBioroid.activeSkill)
-//                put("passive", selectedBioroid.passiveSkills)
-//                put("Image", selectedBioroid.image)
-//                put("currentPosition", selectedBioroid.currentPosition)
-//                put("stat", selectedBioroid.stats)
-//            }
             val intent = Intent(activity, MainActivity::class.java).apply {
                 putExtra("data", data.toString())
             }
-            activity.setResult(RESULT_OK, intent)
-            activity.finish()
+            activity.apply {
+                setResult(RESULT_OK, intent)
+                finish()
+            }
         }
         holder.bind(datas[position])
-        Log.e("BindHolder", datas[position].name)
     }
 
     override fun getItemCount(): Int = datas.size

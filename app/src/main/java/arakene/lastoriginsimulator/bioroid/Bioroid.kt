@@ -1,9 +1,5 @@
 package arakene.lastoriginsimulator.bioroid
 
-import android.content.res.Resources
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.media.Image
 import arakene.lastoriginsimulator.R
 
 /**
@@ -13,29 +9,28 @@ import arakene.lastoriginsimulator.R
 class Bioroid(
     private val _name: String,
     private val _level: Int,
-    private var _activeSkills: ArrayList<Skill>? = null,
+    private var _activeSkills: Array<Skill>? = null,
     private var _passiveSkills: Array<Skill>,
-    private var _image:Int? = null,
-    private val _currentPosition:IntArray,
-    private var _stats : HashMap<String, Double>,
+    private var _image: Int? = null,
+    var _currentPosition: IntArray = IntArray(2),
+    private var _stats: HashMap<String, Double>,
 ) {
 
     val level get() = _level
     val activeSkill get() = _activeSkills
     val passiveSkills get() = _passiveSkills
     val name get() = _name
-    val currentPosition get() = _currentPosition
     val stats get() = _stats
     val image: () -> Int?
         get() = {
-            if(_image == null){
+            if (_image == null) {
                 R.drawable.ic_launcher_foreground
-            }else{
+            } else {
                 _image!!
             }
-    }
+        }
 
-    fun applyPassive(targets:Array<Bioroid>) {
+    fun applyPassive(targets: Array<Bioroid>) {
         for (passive in passiveSkills) {
             passive.applyPassive(targets)
         }
@@ -46,8 +41,8 @@ class Bioroid(
         return "Bioroid Information\n" +
                 "name $_name\n" +
                 "level $_level\n" +
-                "passive ${_passiveSkills}\n" +
-                "currentPosition $_currentPosition\n" +
+                "passive ${_passiveSkills.contentDeepToString()}\n" +
+                "currentPosition ${_currentPosition.contentToString()}\n" +
                 "stat $_stats\n"
     }
 

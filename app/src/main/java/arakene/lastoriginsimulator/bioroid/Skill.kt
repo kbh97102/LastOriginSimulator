@@ -26,13 +26,18 @@ open class Skill {
     }
 
     private fun isPosition(target: Bioroid, passive: Array<IntArray>): Boolean {
-        val x = target.currentPosition[0]
-        val y = target.currentPosition[1]
+        val x = target._currentPosition[0]
+        val y = target._currentPosition[1]
 
         if (passive[y][x] == APPLY) {
             return true
         }
         return false
+    }
+
+    override fun toString(): String {
+        return "\nSkill Effect\n" +
+                "${skillEffect.toString()}"
     }
 
 }
