@@ -19,15 +19,15 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         buttonList.apply {
-            add(button1)
-            add(button2)
-            add(button3)
-            add(button4)
-            add(button5)
-            add(button6)
-            add(button7)
-            add(button8)
-            add(button9)
+            add(button_1)
+            add(button_2)
+            add(button_3)
+            add(button_4)
+            add(button_5)
+            add(button_6)
+            add(button_7)
+            add(button_8)
+            add(button_9)
         }.map {
             it.setOnClickListener { it2 ->
                 val buttonId = it.resources.getResourceName(it.id)

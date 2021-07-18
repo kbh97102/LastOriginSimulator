@@ -50,7 +50,18 @@ class SelectView : AppCompatActivity() {
             HashMap()
         )
 
+        val andbari = Bioroid(
+            "POE",
+            1,
+            null,
+            arrayOf(Skill().apply { skillEffect[BioroidStats.ATTACK] = 1.2 }),
+            R.drawable.test2,
+            intArrayOf(0,0),
+            HashMap()
+        )
+
         datas.add(superDragon)
+        datas.add(andbari)
         selectorAdapter.notifyDataSetChanged()
     }
 

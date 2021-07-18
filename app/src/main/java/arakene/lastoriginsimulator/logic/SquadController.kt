@@ -1,9 +1,9 @@
 package arakene.lastoriginsimulator.logic
 
 import android.content.Intent
+import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import arakene.lastoriginsimulator.R
 import arakene.lastoriginsimulator.SelectView
 import arakene.lastoriginsimulator.bioroid.Bioroid
 import com.google.gson.Gson
@@ -11,8 +11,8 @@ import kotlin.reflect.KFunction2
 
 class SquadController(private val activity: AppCompatActivity) {
 
-    private val bioroidMap = HashMap<Int, Bioroid>()
-    private var selectedPosition: Int? = null
+    private val bioroidMap = HashMap<Int, Bioroid?>()
+    private var selectedPosition: Int = 0
     private var isSelected = false
     private val positionMap = HashMap<Int, IntArray>().apply {
         put(1, intArrayOf(0, 2))
@@ -33,14 +33,14 @@ class SquadController(private val activity: AppCompatActivity) {
                 if (result.data != null) {
                     val json = result.data!!.extras!!.get("data").toString()
                     val bioroid: Bioroid = Gson().fromJson(json, Bioroid::class.java)
-                    bioroid._currentPosition = positionMap[selectedPosition!!]!!
-                    bioroidMap[selectedPosition!!] = bioroid
+                    bioroid._currentPosition = positionMap[selectedPosition]!!
+                    bioroidMap[selectedPosition] = bioroid
                     if (requestChangeButtonIcon != null) {
-                        requestChangeButtonIcon!!.invoke(R.drawable.test, selectedPosition!!)
+                        requestChangeButtonIcon!!.invoke(bioroid.image.invoke()!!, selectedPosition)
                     }
 
                     isSelected = false
-                    selectedPosition = null
+                    selectedPosition = 0
                 }
             }
         }
@@ -64,18 +64,38 @@ class SquadController(private val activity: AppCompatActivity) {
     }
 
     private fun control(selected: Int) {
-        if (bioroidMap[selected] == null) {
-            if (isSelected) { // 이미 바이오로이드가 선택되어 있고 빈칸은 누른 경우 -> 이동시킨다
-                bioroidMap[selected] = bioroidMap[selectedPosition]!!
-                isSelected = false
-            } else { // 이미 선택된 바이오로이드가 없다 따라서 추가한다.
-                selectedPosition = selected
-                val intent = Intent(activity, SelectView::class.java)
-                startActivity.launch(intent)
-            }
+        if (isSelected && bioroidMap[selected] != null) { // 이미 바이오로이드가 선택되어 있고 빈칸은 누른 경우 -> 이동시킨다
+            bioroidMap[selectedPosition]!!._currentPosition = positionMap[selected]!!
+            bioroidMap[selected]!!._currentPosition = positionMap[selectedPosition]!!
+            val temp = bioroidMap[selectedPosition]
+            bioroidMap[selectedPosition] = bioroidMap[selected]!!
+            bioroidMap[selected] = temp!!
+            requestChangeButtonIcon!!.invoke(
+                bioroidMap[selectedPosition]!!.image.invoke()!!,
+                selectedPosition
+            )
+            requestChangeButtonIcon!!.invoke(
+                bioroidMap[selected]!!.image.invoke()!!,
+                selected
+            )
+            isSelected = false
+        }
+        if (isSelected && bioroidMap[selected] == null) { // 선택된 바이오 로이드가 있고 빈 공간으로 이동
+            bioroidMap[selectedPosition]!!._currentPosition = positionMap[selected]!!
+            bioroidMap[selected] = bioroidMap[selectedPosition]!!
+            bioroidMap[selectedPosition] = null
+            requestChangeButtonIcon!!.invoke(bioroidMap[selected]!!.image.invoke()!!, selected)
+            isSelected = false
+        }
+        if (!isSelected && bioroidMap[selected] == null) {// 이미 선택된 바이오로이드가 없다 따라서 추가한다.
+            selectedPosition = selected
+            val intent = Intent(activity, SelectView::class.java)
+            startActivity.launch(intent)
         } else {
             //TODO 바이오로이드 선택
             isSelected = true
+
+            Log.e("Select Bioroid", "Selected button $selected")
         }
         selectedPosition = selected
 
