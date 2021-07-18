@@ -15,10 +15,9 @@ class Bioroid(
     private val _level: Int,
     private var _activeSkills: ArrayList<Skill>? = null,
     private var _passiveSkills: Array<Skill>,
-    private var _image:Bitmap? = null,
+    private var _image:Int? = null,
     private val _currentPosition:IntArray,
     private var _stats : HashMap<String, Double>,
-    private val resource : Resources
 ) {
 
     val level get() = _level
@@ -27,10 +26,10 @@ class Bioroid(
     val name get() = _name
     val currentPosition get() = _currentPosition
     val stats get() = _stats
-    val image: () -> Bitmap?
+    val image: () -> Int?
         get() = {
             if(_image == null){
-                BitmapFactory.decodeResource(resource,R.drawable.test)
+                R.drawable.ic_launcher_foreground
             }else{
                 _image!!
             }

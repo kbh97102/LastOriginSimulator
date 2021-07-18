@@ -45,10 +45,9 @@ class SelectView : AppCompatActivity() {
             _level = 1,
             null,
             _passiveSkills = arrayOf(skill),
-            null,
+            R.drawable.test,
             intArrayOf(0, 0),
-            HashMap(),
-            this.resources
+            HashMap()
         )
 
         datas.add(superDragon)

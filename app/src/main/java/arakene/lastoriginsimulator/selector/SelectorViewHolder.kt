@@ -1,5 +1,6 @@
 package arakene.lastoriginsimulator.selector
 
+import android.graphics.BitmapFactory
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import arakene.lastoriginsimulator.bioroid.Bioroid
@@ -12,7 +13,8 @@ class SelectorViewHolder(itemView: ItemLayoutBinding) : RecyclerView.ViewHolder(
         itemView.apply {
             bioroidName.text = bioroid.name
             if(bioroid.image != null){
-                bioroidImage.setImageBitmap(bioroid.image.invoke())
+                val image = BitmapFactory.decodeResource(itemView.resources, bioroid.image.invoke()!!)
+                bioroidImage.setImageBitmap(image)
             }
         }
 
