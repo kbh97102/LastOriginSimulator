@@ -1,7 +1,6 @@
 package arakene.lastoriginsimulator.logic
 
 import android.content.Intent
-import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import arakene.lastoriginsimulator.SelectView
@@ -92,10 +91,7 @@ class SquadController(private val activity: AppCompatActivity) {
             val intent = Intent(activity, SelectView::class.java)
             startActivity.launch(intent)
         } else {
-            //TODO 바이오로이드 선택
             isSelected = true
-
-            Log.e("Select Bioroid", "Selected button $selected")
         }
         selectedPosition = selected
 
@@ -103,7 +99,7 @@ class SquadController(private val activity: AppCompatActivity) {
         val list = ArrayList<Bioroid>()
 
         bioroidMap.values.map {
-            if (it != null){
+            if (it != null) {
                 it.initStat()
                 list.add(it)
             }

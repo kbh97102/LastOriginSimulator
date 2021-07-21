@@ -14,9 +14,9 @@ class Bioroid(
     private var _image: Int? = null,
     var _currentPosition: IntArray = IntArray(2),
     private var _stats: HashMap<String, Double>,
-    val afterStats: HashMap<String, Double>
-) {
 
+) {
+    val afterStats: HashMap<String, Double> = HashMap()
     val level get() = _level
     val activeSkill get() = _activeSkills
     val passiveSkills get() = _passiveSkills
