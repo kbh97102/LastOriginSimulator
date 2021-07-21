@@ -33,7 +33,7 @@ class Bioroid(
 
     fun applyPassive(targets: Array<Bioroid>) {
         for (passive in passiveSkills) {
-            passive.applyPassive(targets)
+//            passive.applyPassive(targets)
         }
     }
 

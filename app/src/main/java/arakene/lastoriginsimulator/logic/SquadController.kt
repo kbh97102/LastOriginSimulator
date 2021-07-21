@@ -1,8 +1,10 @@
 package arakene.lastoriginsimulator.logic
 
 import android.content.Intent
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import arakene.lastoriginsimulator.R
 import arakene.lastoriginsimulator.SelectView
 import arakene.lastoriginsimulator.bioroid.Bioroid
 import com.google.gson.Gson
@@ -63,7 +65,8 @@ class SquadController(private val activity: AppCompatActivity) {
     }
 
     private fun control(selected: Int) {
-        if (isSelected && bioroidMap[selected] != null) { // 이미 바이오로이드가 선택되어 있고 빈칸은 누른 경우 -> 이동시킨다
+        if (isSelected && bioroidMap[selected] != null) { // 이미 바이오로이드가 선택되어 있고 다른 바이오로아드가 있어 교환
+            toastMessage("Exchange ${bioroidMap[selectedPosition]!!.name} and ${bioroidMap[selected]!!.name}")
             bioroidMap[selectedPosition]!!._currentPosition = positionMap[selected]!!
             bioroidMap[selected]!!._currentPosition = positionMap[selectedPosition]!!
             val temp = bioroidMap[selectedPosition]
@@ -79,18 +82,27 @@ class SquadController(private val activity: AppCompatActivity) {
             )
             isSelected = false
         }
-        if (isSelected && bioroidMap[selected] == null) { // 선택된 바이오 로이드가 있고 빈 공간으로 이동
+        else if (isSelected && bioroidMap[selected] == null) { // 선택된 바이오 로이드가 있고 빈 공간으로 이동
+            toastMessage("Move to Blank ${bioroidMap[selectedPosition]!!.name}")
+            isSelected = false
             bioroidMap[selectedPosition]!!._currentPosition = positionMap[selected]!!
             bioroidMap[selected] = bioroidMap[selectedPosition]!!
             bioroidMap[selectedPosition] = null
-            requestChangeButtonIcon!!.invoke(bioroidMap[selected]!!.image.invoke()!!, selected)
-            isSelected = false
+            //TODO Blank Image Require
+            requestChangeButtonIcon!!.apply {
+                invoke(R.drawable.ic_launcher_foreground, selectedPosition)
+                invoke(bioroidMap[selected]!!.image.invoke()!!, selected)
+            }
         }
-        if (!isSelected && bioroidMap[selected] == null) {// 이미 선택된 바이오로이드가 없다 따라서 추가한다.
+        else if (!isSelected && bioroidMap[selected] == null) {// 이미 선택된 바이오로이드가 없다 따라서 추가한다.
+            toastMessage("Add Bioroid")
             selectedPosition = selected
             val intent = Intent(activity, SelectView::class.java)
             startActivity.launch(intent)
-        } else {
+            isSelected = false
+        } 
+        else if(!isSelected && bioroidMap[selected] != null){// 선택한 적 없고 바이오 로이드 있는 칸을 선택
+            toastMessage("Select Bioroid ${bioroidMap[selected]!!.name}")
             isSelected = true
         }
         selectedPosition = selected
@@ -110,4 +122,7 @@ class SquadController(private val activity: AppCompatActivity) {
         }
     }
 
+    private fun toastMessage(msg: String) {
+        Toast.makeText(activity.applicationContext, msg, Toast.LENGTH_SHORT).show()
+    }
 }
