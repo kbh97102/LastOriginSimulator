@@ -29,6 +29,8 @@ class MainActivity : AppCompatActivity() {
             add(button_8)
             add(button_9)
         }.map {
+            //TODO Blank Image Require
+            it.setBackgroundResource(R.drawable.ic_launcher_foreground)
             it.setOnClickListener { it2 ->
                 val buttonId = it.resources.getResourceName(it.id)
                 controller.check(buttonId.split("_")[1].toInt())
