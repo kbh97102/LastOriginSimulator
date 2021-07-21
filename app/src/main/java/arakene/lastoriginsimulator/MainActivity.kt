@@ -38,8 +38,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         controller.requestChangeButtonIcon = this::changeButtonIcon
-
-
     }
 
     private fun changeButtonIcon(id: Int, position: Int) {

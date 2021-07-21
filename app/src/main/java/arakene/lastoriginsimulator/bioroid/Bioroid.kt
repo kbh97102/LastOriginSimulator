@@ -16,6 +16,7 @@ class Bioroid(
     private var _stats: HashMap<String, Double>,
 
 ) {
+    val items = arrayOfNulls<Item>(4)
     val afterStats: HashMap<String, Double> = HashMap()
     val level get() = _level
     val activeSkill get() = _activeSkills
@@ -40,6 +41,11 @@ class Bioroid(
     fun initStat() {
         for (key in _stats.keys) {
             afterStats[key] = _stats[key]!!
+        }
+        items.forEach {
+            if (it != null){
+                afterStats[it.type] += it.value
+            }
         }
     }
 
