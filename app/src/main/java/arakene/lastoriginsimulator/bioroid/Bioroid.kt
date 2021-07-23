@@ -44,7 +44,7 @@ class Bioroid(
         }
         items.forEach {
             if (it != null){
-                afterStats[it.type] += it.value
+                afterStats[it.type] = afterStats[it.type]!! + it.value
             }
         }
     }
