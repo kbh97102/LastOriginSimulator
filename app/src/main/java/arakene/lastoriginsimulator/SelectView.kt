@@ -3,6 +3,7 @@ package arakene.lastoriginsimulator
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import arakene.lastoriginsimulator.bioroid.Bioroid
 import arakene.lastoriginsimulator.bioroid.BioroidStats
@@ -27,8 +28,9 @@ class SelectView : AppCompatActivity() {
 
         recyclerView.apply {
             adapter = selectorAdapter
-            setHasFixedSize(true)
-            layoutManager = LinearLayoutManager(this@SelectView)
+            setHasFixedSize(false)
+            layoutManager = GridLayoutManager(this@SelectView, 2)
+//            layoutManager = LinearLayoutManager(this@SelectView)
         }
 
         Log.e("Data size", selectorAdapter.itemCount.toString())
