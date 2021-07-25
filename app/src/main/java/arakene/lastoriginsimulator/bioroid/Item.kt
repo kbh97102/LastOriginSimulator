@@ -1,5 +1,5 @@
 package arakene.lastoriginsimulator.bioroid
 
-class Item(var type : String, var value : Double) {
+class Item(var name : String, var type : String, var value : Double) {
 
 }
